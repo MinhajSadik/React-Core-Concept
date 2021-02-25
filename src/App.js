@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const friends = ['minhaj', 'Ahmed', 'Sadik', 'ANIKA', 'Isheta', 'Joynul'];
@@ -18,18 +18,47 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Clever Learner'z</p>
+        <Counter></Counter>
+        <Users></Users>
         <ul>
           {
             friends.map(friend => <li>{friend}</li>)
           }
         </ul>
           {
-            products.map(pro => <Product product={pro}></Product>)
+            products.map(prod => <Product product={prod}></Product>)
           }
-        
       </header>
     </div>
   );
+}
+function Counter() {
+  const [count, setCount] = useState(0)
+  const handler = () => setCount(count + 1)
+  return (<div>
+    <h2>Counter:{count}</h2>
+    <button onMouseMove={handler}>Increase</button>
+    <br/>
+    <button onClick={() => setCount(count-1)}>Decrease</button>
+  </div>)
+}
+
+function Users() {
+const [users, setUser] = useState([])
+
+useEffect(() =>{
+  fetch('https://jsonplaceholder.typicode.com/comments')
+  .then(res => res.json())
+  .then(data => setUser(data))
+},[])
+  return (<div>
+    <h2>DynamicUsers:{users.lenght}</h2>
+    <ul>
+      {
+        users.map(user => <li>{user.email}</li>)
+      }
+    </ul>
+  </div>);
 }
 
 function Product(props){
